@@ -1,4 +1,4 @@
-from hyperon import MeTTa
+from hyperon import MeTTa, SymbolAtom, ExpressionAtom, GroundedAtom
 import os
 import glob
 
@@ -28,24 +28,48 @@ try:
 except Exception as e:
     print(f"An error occurred: {e}")
 
-# 2 point
+# 2 Points
 def get_transcript(node):
-    transcript = metta.run() #TODO
-    return transcript     #[[(, (transcribed_to (gene ENSG00000175793) (transcript ENST00000339276)))]]
+     #TODO Implement the logic to fetch the transcript
+    transcript = metta.run()
+    return transcript     
 
-#2 point
+#2 Points
 def get_protein(node):
-    protein = metta.run() #TODO
+    #TODO Implement the logic to fetch the protein
+    protein = metta.run() 
     return protein
 
+#6 Points
 def metta_seralizer(metta_result):
-    #TODO
+    #TODO Implement logic to convert the Metta output into a structured format  (e.g., a list of dictionaries) that can be easily serialized to JSON.
     return result
 
-result= (get_protein(['gene ENSG00000166913'])) # change the gene id to "ENSG00000166913"
-print(result) #[[(, (transcribed_to (gene ENSG00000175793) (transcript ENST00000339276)))]]
 
-#6 point
-parsed_result = metta_seralizer(result)
-print(parsed_result) # [{'edge': 'transcribed_to', 'source': 'gene ENSG00000175793', 'target': 'transcript ENST00000339276'}]
+
+#1
+transcript_result= (get_transcript(['gene ENSG00000166913']))
+print(transcript_result) 
+"""
+Expected Output Format::
+# [[(, (transcribed_to (gene ENSG00000166913) (transcript ENST00000372839))), (, (transcribed_to (gene ENSG00000166913) (transcript ENST00000353703)))]]
+""" 
+
+#2
+protein_result= (get_protein(['gene ENSG00000166913']))
+print(protein_result) 
+"""
+Expected Output Format::
+# [[(, (translates_to (transcript ENST00000353703) (protein P31946))), (, (translates_to (transcript ENST00000372839) (protein P31946)))]]
+"""
+
+#3
+parsed_result = metta_seralizer(transcript_result)
+print(parsed_result) 
+"""
+Expected Output Format:
+[
+    {'edge': 'transcribed_to', 'source': 'gene ENSG00000175793', 'target': 'transcript ENST00000339276'}
+]
+"""
 
