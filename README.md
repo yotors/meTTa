@@ -1,6 +1,11 @@
 # meTTa_Training
 
-1. **Set Up the Virtual Environment**:
+**Set Up:**
+
+Method 1:
+
+**Set Up the Virtual Environment**:
+
     ```sh
     python -m venv venv
     source venv/bin/activate
@@ -9,11 +14,12 @@
    pip install -r requirements.txt
    ```
 
+Method 2:
 
-2. **Set up Docker**:
+**Set up Docker**:
 ```sh
 docker build -t metta-app .
-docker run -it --rm metta-app
+docker run -it --rm -v ${PWD}:/app metta-app
 ```
 
 3. **Links**:
