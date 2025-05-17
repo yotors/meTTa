@@ -1,5 +1,4 @@
-from hyperon import MeTTa, SymbolAtom, ExpressionAtom, GroundedAtom
-import os
+from hyperon import *
 import glob
 
 metta = MeTTa()
@@ -31,18 +30,29 @@ except Exception as e:
 # 2 Points
 def get_transcript(node):
      #TODO Implement the logic to fetch the transcript
-    transcript = metta.run()
-    return transcript     
+    transcript = metta.run(f'''
+    ! (match &space (transcribed_to ({node[0]}) $x) (transcribed_to ({node[0]}) $x))
+''')
+    return transcript[0]
 
 #2 Points
 def get_protein(node):
     #TODO Implement the logic to fetch the protein
-    protein = metta.run() 
-    return protein
+    protein = metta.run(f'''
+    ! (match &space (transcribed_to ({node[0]}) $x) (match &space 
+(translates_to $x $y) 
+(translates_to $x $y)))
+''') 
+    return protein[0]
 
 #6 Points
 def metta_seralizer(metta_result):
     #TODO Implement logic to convert the Metta output into a structured format  (e.g., a list of dictionaries) that can be easily serialized to JSON.
+    
+    resul = metta_result[0].get_children()
+    source = " ".join([i.get_name() for i in resul[1].get_children()])
+    target = " ".join([i.get_name() for i in resul[2].get_children()])
+    result = {"edge": resul[0].get_name(), "source": source, "target": target}
     return result
 
 
